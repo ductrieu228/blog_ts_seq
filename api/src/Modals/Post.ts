@@ -34,7 +34,7 @@ Post.init(
         },
         author_avatar: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         attached_image: {
             type: DataTypes.STRING,
