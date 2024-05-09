@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import "./Add.css";
+import { Button } from "@mui/base/Button";
+import Preview from "../../../components/Preview/Preview";
 
 interface AddProps {
   onAdd: (newPost: PostData) => void;
@@ -20,7 +23,6 @@ const Add: React.FC<AddProps> = ({ onAdd }) => {
     author_avatar: null,
     attached_image: null,
   });
- 
 
   const handleAdd = () => {
     onAdd(newPost);
@@ -34,26 +36,44 @@ const Add: React.FC<AddProps> = ({ onAdd }) => {
   };
   return (
     <div>
-      <div>
+      <div className="addArea1">
         <h3>Add New Post</h3>
-        <input
-          type="text"
-          placeholder="Title"
-          value={newPost.title}
-          onChange={e => setNewPost({ ...newPost, title: e.target.value })}
-        />
-        <textarea
-          placeholder="Content"
-          value={newPost.content}
-          onChange={e => setNewPost({ ...newPost, content: e.target.value })}
-        />
-        <input
-          type="text"
-          placeholder="Author"
-          value={newPost.author}
-          onChange={e => setNewPost({ ...newPost, author: e.target.value })}
-        />
-        <button onClick={handleAdd}>Add Post</button>{" "}
+        <div className="flexnp">
+          <div className="flexAdd">
+            <input
+              type="text"
+              id="title"
+              placeholder="Title"
+              value={newPost.title}
+              onChange={(e) =>
+                setNewPost({ ...newPost, title: e.target.value })
+              }
+            />
+            <input
+              type="text"
+              placeholder="Author"
+              id="author"
+              value={newPost.author}
+              onChange={(e) =>
+                setNewPost({ ...newPost, author: e.target.value })
+              }
+            />
+            <textarea
+              placeholder="Content"
+              id="content"
+              value={newPost.content}
+              onChange={(e) =>
+                setNewPost({ ...newPost, content: e.target.value })
+              }
+            />
+            <Button id="submit" onClick={handleAdd}>
+              Add Post
+            </Button>{" "}
+          </div>
+          <div className="preview">
+            <Preview key={96752} post={{ id: 98752, ...newPost }} />
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import React from "react";
-import './post.css';
+import './Preview.css';
+
 interface PostProps {
   post: {
     id: number;
@@ -7,18 +8,16 @@ interface PostProps {
     content: string;
     author: string;
   };
-  onDelete: (id: number) => void;
-  onEdit: (postId: number) => void;
 }
 
-const Post: React.FC<PostProps> = ({ post, onDelete, onEdit }) => {
+const Preview: React.FC<PostProps> = ({ post}) => {
   return (
     <div key={post.id}>
       <div className="container">
         <div className="card">
           <div className="card__header">
             <img
-              src="https://source.unsplash.com/600x400/?computer"
+              src="https://source.unsplash.com/600x400/?food" 
               alt="card__image"
               className="card__image"
               width={600}
@@ -47,10 +46,8 @@ const Post: React.FC<PostProps> = ({ post, onDelete, onEdit }) => {
         </div>
       </div>
 
-      <button onClick={() => onDelete(post.id)}>Delete</button>
-      <button onClick={() => onEdit(post.id)}>Edit</button>
     </div>
   );
 };
 
-export default Post;
+export default Preview;

@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './App.css';
-import Post from './components/Post/Post';
-import Add from './pages/posts/Add/Add';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import Modal from 'react-modal'; 
-import Edit from './pages/posts/Edit/Edit';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./App.css";
+import Post from "./components/Post/Post";
+import Add from "./pages/posts/Add/Add";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import Modal from "react-modal";
+import Edit from "./pages/posts/Edit/Edit";
 
+
+Modal.setAppElement("#root");
 
 interface Post1 {
   id: number;
@@ -41,28 +43,28 @@ const App: React.FC = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get('http://localhost:2208/post');
+      const response = await axios.get("http://localhost:2208/post");
       setPosts(response.data.posts);
     } catch (error) {
-      console.error('Error fetching posts:', error);
+      console.error("Error fetching posts:", error);
     }
   };
 
   const addPost = async (newPost: NPost) => {
     try {
-      const response = await axios.post('http://localhost:2208/posts', newPost);
+      const response = await axios.post("http://localhost:2208/posts", newPost);
       setPosts([...posts, response.data]);
     } catch (error) {
-      console.error('Error adding post:', error);
+      console.error("Error adding post:", error);
     }
   };
 
   const deletePost = async (postId: number) => {
     try {
       await axios.delete(`http://localhost:2208/posts/${postId}`);
-      setPosts(posts.filter(post => post.id !== postId));
+      setPosts(posts.filter((post) => post.id !== postId));
     } catch (error) {
-      console.error('Error deleting post:', error);
+      console.error("Error deleting post:", error);
     }
   };
 
@@ -76,7 +78,7 @@ const App: React.FC = () => {
   };
 
   const updatePost = (updatedPost: Post1) => {
-    const updatedPosts = posts.map(post => {
+    const updatedPosts = posts.map((post) => {
       if (post.id === updatedPost.id) {
         return updatedPost;
       }
@@ -88,18 +90,38 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <h2>Admin Panel</h2>
-      <button onClick={() => setShowAdd(!showAdd)}>
-      Add Post {showAdd ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}  
-    </button>
-      {showAdd && <Add onAdd={addPost} />}
-      <div>
-        {posts.map(post => (
-          <Post key={post.id} post={post} onDelete={deletePost} onEdit={handleEdit}/>
+      <h2>Abu Blog</h2>
+      <div className="addArea">
+        <div className="button">
+          <button id="addToogleButton" onClick={() => setShowAdd(!showAdd)}>
+             {showAdd ? <RemoveIcon /> : <AddIcon />}
+          </button>
+        </div>
+        <div className="toggle">{showAdd && <Add onAdd={addPost} />}</div>
+      </div>
+      <div className="postArea">
+        {posts.map((post) => (
+          <Post
+            key={post.id}
+            post={post}
+            onDelete={deletePost}
+            onEdit={handleEdit}
+          />
         ))}
       </div>
-      <Modal isOpen={showEditModal} onRequestClose={handleCloseEditModal}>
-        {editPostId && <Edit postId={editPostId} onClose={handleCloseEditModal} updatePost={updatePost}/>}
+      <Modal
+        ariaHideApp={false}
+        id="modal_edit"
+        isOpen={showEditModal}
+        onRequestClose={handleCloseEditModal}
+      >
+        {editPostId && (
+          <Edit
+            postId={editPostId}
+            onClose={handleCloseEditModal}
+            updatePost={updatePost}
+          />
+        )}
       </Modal>
     </div>
   );

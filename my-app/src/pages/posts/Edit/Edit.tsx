@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Button } from '@mui/base/Button';
+
 
 interface Post {
   id: number;
@@ -60,6 +62,7 @@ const Edit: React.FC<EditProps> = ({ postId, onClose, updatePost }) => {
   return (
     <div>
       <h2>Edit Post</h2>
+      <span></span>
       <div>
         <label>Title:</label>
         <input
@@ -106,8 +109,9 @@ const Edit: React.FC<EditProps> = ({ postId, onClose, updatePost }) => {
         <label>Updated Time:</label>
         <input type="text" name="updatedAt" value={post.updatedAt} disabled />
       </div>
-      <button onClick={handleSubmit}>Save Changes</button>
-      <button onClick={onClose}>Cancel</button>
+      <Button id="saveButton" onClick={handleSubmit}>Save Changes</Button>
+      <Button id="cancelButton" onClick={onClose}>Cancel</Button>
+      
     </div>
   );
 };
