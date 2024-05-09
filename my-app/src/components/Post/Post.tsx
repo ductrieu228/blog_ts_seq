@@ -1,11 +1,14 @@
 import React from "react";
-import './post.css';
+import "./post.css";
+import { formatDistance } from "date-fns";
 interface PostProps {
   post: {
     id: number;
     title: string;
     content: string;
     author: string;
+    createdAt: string;
+    updatedAt: string;
   };
   onDelete: (id: number) => void;
   onEdit: (postId: number) => void;
@@ -25,11 +28,9 @@ const Post: React.FC<PostProps> = ({ post, onDelete, onEdit }) => {
             />
           </div>
           <div className="card__body">
-            <span className="tag tag-red">Tags</span>
+            <span className="tag tag-brown">Tags</span>
             <h4>{post.title}</h4>
-            <p>
-            {post.content}
-            </p>
+            <p>{post.content}</p>
           </div>
           <div className="card__footer">
             <div className="user">
@@ -40,15 +41,32 @@ const Post: React.FC<PostProps> = ({ post, onDelete, onEdit }) => {
               />
               <div className="user__info">
                 <h5>{post.author}</h5>
-                <small>{post.author}</small>
+                <small>
+                  {formatDistance(new Date(post.updatedAt), new Date(), {
+                    addSuffix: true,
+                  })}
+                </small>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <button onClick={() => onDelete(post.id)}>Delete</button>
-      <button onClick={() => onEdit(post.id)}>Edit</button>
+      <div className="buttonPost">
+        <button
+          className="tag tag-red"
+          id="deleteBut"
+          onClick={() => onDelete(post.id)}
+        >
+          Delete
+        </button>
+        <button
+          className="tag tag-blue"
+          id="editBut"
+          onClick={() => onEdit(post.id)}
+        >
+          Edit
+        </button>
+      </div>
     </div>
   );
 };

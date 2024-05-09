@@ -1,5 +1,7 @@
 import React from "react";
 import './Preview.css';
+import { formatDistance } from "date-fns";
+
 
 interface PostProps {
   post: {
@@ -7,6 +9,7 @@ interface PostProps {
     title: string;
     content: string;
     author: string;
+    updatedAt?: string
   };
 }
 
@@ -39,7 +42,11 @@ const Preview: React.FC<PostProps> = ({ post}) => {
               />
               <div className="user__info">
                 <h5>{post.author}</h5>
-                <small>{post.author}</small>
+                <small>
+                  {formatDistance(new Date(post.updatedAt ? post.updatedAt : new Date().getTime() ), new Date(), {
+                    addSuffix: true,
+                  })}
+                </small>
               </div>
             </div>
           </div>

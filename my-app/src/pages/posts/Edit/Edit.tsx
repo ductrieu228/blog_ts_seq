@@ -60,7 +60,9 @@ const Edit: React.FC<EditProps> = ({ postId, onClose, updatePost }) => {
   };
 
   return (
+    
     <div>
+      
       <h2>Edit Post</h2>
       <span></span>
       <div>

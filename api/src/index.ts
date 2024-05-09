@@ -1,14 +1,14 @@
 import "./sequelize"; // Import Sequelize đã được cấu hình
 import express, { Request, Response } from "express";
-import * as dotenv from 'dotenv';
+import * as dotenv from "dotenv";
 import Post from "./Modals/Post";
 
 const app = express();
 app.use(express.json());
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   next();
 });
 dotenv.config();
@@ -48,14 +48,19 @@ app.post(
     try {
       const { title, content, author, author_avatar, attached_image } =
         req.body;
-      const post = await Post.create({
-        title,
-        content,
-        author,
-        author_avatar,
-        attached_image,
-      });
-      res.status(201).json(post);
+      if (title != "") {
+        const post = await Post.create({
+          title,
+          content,
+          author,
+          author_avatar,
+          attached_image,
+        });
+        res.status(201).json(post);
+      }
+      else{
+        res.status(500).json({ error: "Lỗi bài viết khong tieu de." });
+      }
     } catch (error) {
       console.error("Lỗi khi tạo bài viết:", error);
       res.status(500).json({ error: "Lỗi khi tạo bài viết." });

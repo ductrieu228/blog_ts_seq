@@ -7,6 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Modal from "react-modal";
 import Edit from "./pages/posts/Edit/Edit";
+import Swal from 'sweetalert2';
 
 
 Modal.setAppElement("#root");
@@ -54,10 +55,23 @@ const App: React.FC = () => {
     try {
       const response = await axios.post("http://localhost:2208/posts", newPost);
       setPosts([...posts, response.data]);
+      // Hiển thị thông báo thành công bằng SweetAlert
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'Post added successfully!'
+      });
     } catch (error) {
       console.error("Error adding post:", error);
+      // Hiển thị thông báo lỗi bằng SweetAlert
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Failed to add post. Please try again later.'
+      });
     }
   };
+  
 
   const deletePost = async (postId: number) => {
     try {
